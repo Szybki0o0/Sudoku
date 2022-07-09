@@ -6,8 +6,10 @@ pygame.display.init()
 def SettingWindow():
     (width,height) = 460,460
     global screen
+    global font
     screen = pygame.display.set_mode((width, height))
     pygame.display.set_caption("Sudoku")
+    font = pygame.font.Font(None,45)
 
 def StartingWindow():
     isRunning = True
@@ -27,7 +29,7 @@ def StartingWindow():
                     pygame.draw.rect(screen, orange, pygame.Rect(element.left,element.top,40,40),3)
                     pygame.display.update()
                 else:
-                    pygame.draw.rect(screen, white, pygame.Rect(element.left, element.top, 40, 40))
+                    pygame.draw.rect(screen, white, pygame.Rect(element.left, element.top, 40, 40),3)
         # Activates rectangle changing color to red
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -37,6 +39,26 @@ def StartingWindow():
                         activeCoordinateTop = element.top
                         pygame.draw.rect(screen, red, pygame.Rect(element.left, element.top, 40, 40), 3)
                         pygame.display.update()
+            # Inserts numbers to rectangles
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_1:
+                    screen.blit(font.render("1", True, black), (activeCoordinateLeft + 12, activeCoordinateTop + 7))
+                if event.key == pygame.K_2:
+                    screen.blit(font.render("2", True, black), (activeCoordinateLeft + 12, activeCoordinateTop + 7))
+                if event.key == pygame.K_3:
+                    screen.blit(font.render("3", True, black), (activeCoordinateLeft + 12, activeCoordinateTop + 7))
+                if event.key == pygame.K_4:
+                    screen.blit(font.render("4", True, black), (activeCoordinateLeft + 12, activeCoordinateTop + 7))
+                if event.key == pygame.K_5:
+                    screen.blit(font.render("5", True, black), (activeCoordinateLeft + 12, activeCoordinateTop + 7))
+                if event.key == pygame.K_6:
+                    screen.blit(font.render("6", True, black), (activeCoordinateLeft + 12, activeCoordinateTop + 7))
+                if event.key == pygame.K_7:
+                    screen.blit(font.render("7", True, black), (activeCoordinateLeft + 12, activeCoordinateTop + 7))
+                if event.key == pygame.K_8:
+                    screen.blit(font.render("8", True, black), (activeCoordinateLeft + 12, activeCoordinateTop + 7))
+                if event.key == pygame.K_9:
+                    screen.blit(font.render("9", True, black), (activeCoordinateLeft + 12, activeCoordinateTop + 7))
             # Makes closing window available
             if event.type == pygame.QUIT:
                 isRunning = False
@@ -95,7 +117,9 @@ def DrawingBoard():
             top = el.top
 
 DrawingBoard()
-
+# Generates board with random numbers
+# screen.blit(font.render("1",True,black),(rectList[0].left+12,rectList[0].top+7))
+print(rectList)
 StartingWindow()
 
 
