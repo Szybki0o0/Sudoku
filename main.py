@@ -39,33 +39,51 @@ def StartingWindow():
                         activeCoordinateTop = element.top
                         pygame.draw.rect(screen, red, pygame.Rect(element.left, element.top, 40, 40), 3)
                         pygame.display.update()
-            # Inserts numbers to rectangles
+            # Inserts numbers to rectangles and overwrite old numbers
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_1:
+                    if rectDict[str(activeCoordinateLeft)+str(activeCoordinateTop)] != 0:
+                        pygame.draw.rect(screen, white, pygame.Rect(activeCoordinateLeft+12, activeCoordinateTop+7, 20, 25))
                     screen.blit(font.render("1", True, black), (activeCoordinateLeft + 12, activeCoordinateTop + 7))
                     rectDict[str(activeCoordinateLeft)+str(activeCoordinateTop)] = 1
                 if event.key == pygame.K_2:
+                    if rectDict[str(activeCoordinateLeft)+str(activeCoordinateTop)] != 0:
+                        pygame.draw.rect(screen, white, pygame.Rect(activeCoordinateLeft+12, activeCoordinateTop+7, 20, 25))
                     screen.blit(font.render("2", True, black), (activeCoordinateLeft + 12, activeCoordinateTop + 7))
                     rectDict[str(activeCoordinateLeft)+str(activeCoordinateTop)] = 2
                 if event.key == pygame.K_3:
+                    if rectDict[str(activeCoordinateLeft)+str(activeCoordinateTop)] != 0:
+                        pygame.draw.rect(screen, white, pygame.Rect(activeCoordinateLeft+12, activeCoordinateTop+7, 20, 25))
                     screen.blit(font.render("3", True, black), (activeCoordinateLeft + 12, activeCoordinateTop + 7))
                     rectDict[str(activeCoordinateLeft)+str(activeCoordinateTop)] = 3
                 if event.key == pygame.K_4:
+                    if rectDict[str(activeCoordinateLeft)+str(activeCoordinateTop)] != 0:
+                        pygame.draw.rect(screen, white, pygame.Rect(activeCoordinateLeft+12, activeCoordinateTop+7, 20, 25))
                     screen.blit(font.render("4", True, black), (activeCoordinateLeft + 12, activeCoordinateTop + 7))
                     rectDict[str(activeCoordinateLeft)+str(activeCoordinateTop)] = 4
                 if event.key == pygame.K_5:
+                    if rectDict[str(activeCoordinateLeft)+str(activeCoordinateTop)] != 0:
+                        pygame.draw.rect(screen, white, pygame.Rect(activeCoordinateLeft+12, activeCoordinateTop+7, 20, 25))
                     screen.blit(font.render("5", True, black), (activeCoordinateLeft + 12, activeCoordinateTop + 7))
                     rectDict[str(activeCoordinateLeft)+str(activeCoordinateTop)] = 5
                 if event.key == pygame.K_6:
+                    if rectDict[str(activeCoordinateLeft)+str(activeCoordinateTop)] != 0:
+                        pygame.draw.rect(screen, white, pygame.Rect(activeCoordinateLeft+12, activeCoordinateTop+7, 20, 25))
                     screen.blit(font.render("6", True, black), (activeCoordinateLeft + 12, activeCoordinateTop + 7))
                     rectDict[str(activeCoordinateLeft)+str(activeCoordinateTop)] = 6
                 if event.key == pygame.K_7:
+                    if rectDict[str(activeCoordinateLeft)+str(activeCoordinateTop)] != 0:
+                        pygame.draw.rect(screen, white, pygame.Rect(activeCoordinateLeft+12, activeCoordinateTop+7, 20, 25))
                     screen.blit(font.render("7", True, black), (activeCoordinateLeft + 12, activeCoordinateTop + 7))
                     rectDict[str(activeCoordinateLeft)+str(activeCoordinateTop)] = 7
                 if event.key == pygame.K_8:
+                    if rectDict[str(activeCoordinateLeft)+str(activeCoordinateTop)] != 0:
+                        pygame.draw.rect(screen, white, pygame.Rect(activeCoordinateLeft+12, activeCoordinateTop+7, 20, 25))
                     screen.blit(font.render("8", True, black), (activeCoordinateLeft + 12, activeCoordinateTop + 7))
                     rectDict[str(activeCoordinateLeft)+str(activeCoordinateTop)] = 8
                 if event.key == pygame.K_9:
+                    if rectDict[str(activeCoordinateLeft)+str(activeCoordinateTop)] != 0:
+                        pygame.draw.rect(screen, white, pygame.Rect(activeCoordinateLeft+12, activeCoordinateTop+7, 20, 25))
                     screen.blit(font.render("9", True, black), (activeCoordinateLeft + 12, activeCoordinateTop + 7))
                     rectDict[str(activeCoordinateLeft)+str(activeCoordinateTop)] = 9
             # Makes closing window available
