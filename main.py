@@ -105,14 +105,44 @@ def DrawingBoard():
             top = el.top
 
 DrawingBoard()
-# Creates dictionary of numbers in speciffic rectangles
 rectDict = {}
+rectListVertical = []
+rectListHorizontal = []
+rectListBoxed = []
+# Creates dictionary of numbers in speciffic rectangles
 for rect in rectList:
     cords = str(rect.left) + str(rect.top)
     # cords = int(cords)
     rectDict[cords] = 0
+
+# Creates list of cords of rectangles in horizontal order
+for rect in rectDict:
+    rectListHorizontal.append(rect)
+
+# Creates list of cords of rectangles in vertical order
+tile = 1
+verticalTile = 1
+for col in range(1,10):
+    for rect in rectDict:
+        if tile == col:
+            rectListVertical.append(rect)
+        if tile == col+(verticalTile*9):
+            rectListVertical.append(rect)
+            verticalTile+=1
+        tile+=1
+    tile=1
+    verticalTile=1
+# Creates list of cords of rectangles in boxes horizontally
+
 # Generates board with random numbers
 # screen.blit(font.render("1",True,black),(rectList[0].left+12,rectList[0].top+7))
+
+# print(rectDict.keys())
+def GeneratingBoard():
+    pass
+def CheckingCorectness(key):
+    # number = rectDict[key]
+    pass
 StartingWindow()
 
 
