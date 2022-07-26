@@ -1,15 +1,18 @@
 import pygame
+import math
 
 pygame.init()
 pygame.display.init()
 
+
 def SettingWindow():
-    (width,height) = 460,460
+    (width, height) = 460, 460
     global screen
     global font
     screen = pygame.display.set_mode((width, height))
     pygame.display.set_caption("Sudoku")
-    font = pygame.font.Font(None,45)
+    font = pygame.font.Font(None, 45)
+
 
 def StartingWindow():
     isRunning = True
@@ -26,10 +29,10 @@ def StartingWindow():
                 pygame.display.update()
             else:
                 if element.collidepoint(pygame.mouse.get_pos()):
-                    pygame.draw.rect(screen, orange, pygame.Rect(element.left,element.top,40,40),3)
+                    pygame.draw.rect(screen, orange, pygame.Rect(element.left, element.top, 40, 40), 3)
                     pygame.display.update()
                 else:
-                    pygame.draw.rect(screen, white, pygame.Rect(element.left, element.top, 40, 40),3)
+                    pygame.draw.rect(screen, white, pygame.Rect(element.left, element.top, 40, 40), 3)
         # Activates rectangle changing color to red
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -41,11 +44,13 @@ def StartingWindow():
                         pygame.display.update()
             # Inserts numbers to rectangles and overwrite old numbers looping through numbers 1-9
             if event.type == pygame.KEYDOWN:
-                for i in range(1,10):
-                    if event.key == i+48:
+                for i in range(1, 10):
+                    if event.key == i + 48:
                         if rectDict[str(activeCoordinateLeft) + str(activeCoordinateTop)] != 0:
-                            pygame.draw.rect(screen, white,pygame.Rect(activeCoordinateLeft + 12, activeCoordinateTop + 7, 20, 25))
-                        screen.blit(font.render(f"{i}", True, black), (activeCoordinateLeft + 12, activeCoordinateTop + 7))
+                            pygame.draw.rect(screen, white,
+                                             pygame.Rect(activeCoordinateLeft + 12, activeCoordinateTop + 7, 20, 25))
+                        screen.blit(font.render(f"{i}", True, black),
+                                    (activeCoordinateLeft + 12, activeCoordinateTop + 7))
                         rectDict[str(activeCoordinateLeft) + str(activeCoordinateTop)] = i
             # Makes closing window available
             if event.type == pygame.QUIT:
@@ -53,18 +58,21 @@ def StartingWindow():
             if isRunning == False:
                 pygame.quit()
 
+
 def SettingColors():
     global orange
     global white
     global red
     global black
-    black = (0,0,0)
-    red = (255,0,0)
-    orange = (255,165,0)
+    black = (0, 0, 0)
+    red = (255, 0, 0)
+    orange = (255, 165, 0)
     white = (255, 255, 255)
+
 
 SettingColors()
 SettingWindow()
+
 
 def DrawingBoard():
     global rectList
@@ -74,25 +82,25 @@ def DrawingBoard():
     inside = 42
     devide = 44
     # Draws from right to left and adds rectangles to list the same way
-    for col in range(1,10):
-        for row in range(1,9):
+    for col in range(1, 10):
+        for row in range(1, 9):
             if row == 1:
-                pygame.draw.rect(screen,white,pygame.Rect(x,y,40,40))
-                rectList.append(pygame.Rect(x,y,40,40))
+                pygame.draw.rect(screen, white, pygame.Rect(x, y, 40, 40))
+                rectList.append(pygame.Rect(x, y, 40, 40))
             if row % 3 == 0:
-                pygame.draw.rect(screen,white,pygame.Rect(x+devide,y,40,40))
-                rectList.append(pygame.Rect(x,y,40,40))
-                x+=devide
+                pygame.draw.rect(screen, white, pygame.Rect(x + devide, y, 40, 40))
+                rectList.append(pygame.Rect(x, y, 40, 40))
+                x += devide
             else:
-                pygame.draw.rect(screen,white,pygame.Rect(x+inside,y,40,40))
-                rectList.append(pygame.Rect(x,y,40,40))
-                x+=inside
+                pygame.draw.rect(screen, white, pygame.Rect(x + inside, y, 40, 40))
+                rectList.append(pygame.Rect(x, y, 40, 40))
+                x += inside
         if col % 3 == 0:
             rectList.append(pygame.Rect(x, y, 40, 40))
-            y+=devide
+            y += devide
         else:
             rectList.append(pygame.Rect(x, y, 40, 40))
-            y+=inside
+            y += inside
         x = 40
 
     # I know something higher is wrong and it adds 9 more rectangles but
@@ -103,6 +111,7 @@ def DrawingBoard():
             rectList.remove(el)
         else:
             top = el.top
+
 
 DrawingBoard()
 rectDict = {}
@@ -122,29 +131,84 @@ for rect in rectDict:
 # Creates list of cords of rectangles in vertical order
 tile = 1
 verticalTile = 1
-for col in range(1,10):
+for col in range(1, 10):
     for rect in rectDict:
         if tile == col:
             rectListVertical.append(rect)
-        if tile == col+(verticalTile*9):
+        if tile == col + (verticalTile * 9):
             rectListVertical.append(rect)
-            verticalTile+=1
-        tile+=1
-    tile=1
-    verticalTile=1
+            verticalTile += 1
+        tile += 1
+    tile = 1
+    verticalTile = 1
 # Creates list of cords of rectangles in boxes horizontally
 
 # Generates board with random numbers
 # screen.blit(font.render("1",True,black),(rectList[0].left+12,rectList[0].top+7))
 
-# print(rectDict.keys())
+print(rectDict.keys())
+
+
 def GeneratingBoard():
     pass
+
+
 def CheckingCorectness(key):
-    # number = rectDict[key]
-    pass
+    truthIndex = 0
+    # HORIZONTAL CHECK
+
+    # Gathering data
+    tempHorizontalList = []
+    horizontalIndex = rectListHorizontal.index(key) + 1
+    horizontalLineIndex = math.ceil(horizontalIndex / 9)
+    horizontalLastTileIndex = horizontalLineIndex * 9
+    horizontalFirstTIleIndex = horizontalLastTileIndex - 8
+
+    # Creating temporary list of 8 rectangles in line
+    h = 1
+    for rect in rectListHorizontal:
+        if horizontalLastTileIndex >= h >= horizontalFirstTIleIndex:
+            tempHorizontalList.append(rect)
+        h += 1
+    tempHorizontalList.remove(key)
+
+    # Checking correctness
+    for rect in tempHorizontalList:
+        if rectDict[rect] == rectDict[key]:
+            truthIndex += 1
+    # VERTICAL CHECK
+
+    # Gathering data
+    tempVerticalList = []
+    verticalIndex = rectListVertical.index(key) + 1
+    verticalLineIndex = math.ceil(verticalIndex / 9)
+    verticalLastTileIndex = verticalLineIndex * 9
+    verticalFirstTIleIndex = verticalLastTileIndex - 8
+
+    # Creating temporary list of 8 rectangles in line
+    v = 1
+    for rect in rectListVertical:
+        if verticalLastTileIndex >= v >= verticalFirstTIleIndex:
+            tempVerticalList.append(rect)
+        v += 1
+    tempVerticalList.remove(key)
+
+    # Checking correctness
+    for rect in tempVerticalList:
+        if rectDict[rect] == rectDict[key]:
+            truthIndex += 1
+    # BOXED CHECK
+
+    # FINAL CHECK
+    if truthIndex == 0:
+        return True
+    else:
+        return False
+
+
+rectDict['168124'] = 1
+rectDict['210124'] = 1
+rectDict['168168'] = 1
+
+print(CheckingCorectness('168124'))
 StartingWindow()
-
-
-
-
