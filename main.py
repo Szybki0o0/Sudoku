@@ -1,3 +1,5 @@
+import random
+
 import pygame
 import math
 
@@ -47,10 +49,8 @@ def StartingWindow():
                 for i in range(1, 10):
                     if event.key == i + 48:
                         if rectDict[str(activeCoordinateLeft) + str(activeCoordinateTop)] != 0:
-                            pygame.draw.rect(screen, white,
-                                             pygame.Rect(activeCoordinateLeft + 12, activeCoordinateTop + 7, 20, 25))
-                        screen.blit(font.render(f"{i}", True, black),
-                                    (activeCoordinateLeft + 12, activeCoordinateTop + 7))
+                            pygame.draw.rect(screen, white, pygame.Rect(activeCoordinateLeft + 12, activeCoordinateTop + 7, 20, 25))
+                        screen.blit(font.render(f"{i}", True, black), (activeCoordinateLeft + 12, activeCoordinateTop + 7))
                         rectDict[str(activeCoordinateLeft) + str(activeCoordinateTop)] = i
             # Makes closing window available
             if event.type == pygame.QUIT:
@@ -129,30 +129,105 @@ for rect in rectDict:
     rectListHorizontal.append(rect)
 
 # Creates list of cords of rectangles in vertical order
-tile = 1
-verticalTile = 1
-for col in range(1, 10):
-    for rect in rectDict:
-        if tile == col:
-            rectListVertical.append(rect)
-        if tile == col + (verticalTile * 9):
-            rectListVertical.append(rect)
-            verticalTile += 1
-        tile += 1
+def VerticalOrder():
     tile = 1
     verticalTile = 1
-# Creates list of cords of rectangles in boxes horizontally
+    for col in range(1, 10):
+        for rect in rectDict:
+            if tile == col:
+                rectListVertical.append(rect)
+            if tile == col + (verticalTile * 9):
+                rectListVertical.append(rect)
+                verticalTile += 1
+            tile += 1
+        tile = 1
+        verticalTile = 1
+VerticalOrder()
 
-# Generates board with random numbers
+# Creates list of cords of rectangles in boxes horizontally
+def BoxedOrder():
+    i = 1
+    firstList = []
+    secondList = []
+    thirdList = []
+    for rect in rectListHorizontal:
+        if i <= 27:
+            firstList.append(rect)
+        elif 27 < i <= 54:
+            secondList.append(rect)
+        else:
+            thirdList.append(rect)
+        i+=1
+
+    tile = 1
+    boxedTile = 1
+    for col in range(1, 10):
+        for rect in firstList:
+            if tile == col:
+                rectListBoxed.append(rect)
+            if tile == col + (boxedTile * 9):
+                rectListBoxed.append(rect)
+                boxedTile += 1
+            tile += 1
+        tile = 1
+        boxedTile = 1
+
+    for col in range(1, 10):
+        for rect in secondList:
+            if tile == col:
+                rectListBoxed.append(rect)
+            if tile == col + (boxedTile * 9):
+                rectListBoxed.append(rect)
+                boxedTile += 1
+            tile += 1
+        tile = 1
+        boxedTile = 1
+
+    for col in range(1, 10):
+        for rect in thirdList:
+            if tile == col:
+                rectListBoxed.append(rect)
+            if tile == col + (boxedTile * 9):
+                rectListBoxed.append(rect)
+                boxedTile += 1
+            tile += 1
+        tile = 1
+        boxedTile = 1
+BoxedOrder()
+
 # screen.blit(font.render("1",True,black),(rectList[0].left+12,rectList[0].top+7))
 
-print(rectDict.keys())
+# print(rectDict.keys())
 
 
+# Generates board with random numbers
 def GeneratingBoard():
-    pass
-
-
+    maxRects = 30
+    isRightNumber = False
+    for i in range(1,maxRects+1):
+        randomIndex = random.randint(0,80)
+        while isRightNumber == False:
+            if rectDict[rectListHorizontal[randomIndex]] == 0:
+                randomNumber = random.randint(1,9)
+                rectDict[rectListHorizontal[randomIndex]] = randomNumber
+                if CheckingCorectness(rectListHorizontal[randomIndex]):
+                    isRightNumber = True
+                    cordLeft = 0
+                    cordTop = 0
+                    if rectListHorizontal[randomIndex][0] == '4' or rectListHorizontal[randomIndex][0] == '8':
+                        cordLeft = int(rectListHorizontal[randomIndex][0:2])
+                        cordTop = int(rectListHorizontal[randomIndex][2:])
+                        # print(cordLeft,cordTop,rectListHorizontal[randomIndex])
+                    else:
+                        cordLeft = int(rectListHorizontal[randomIndex][0:3])
+                        cordTop = int(rectListHorizontal[randomIndex][3:])
+                        # print(cordLeft,cordTop,rectListHorizontal[randomIndex])
+                    screen.blit(font.render(f"{randomNumber}", True, black), (cordLeft + 12, cordTop+ 7))
+                    # print(rectDict)
+            else:
+                randomIndex = random.randint(0, 80)
+        isRightNumber = False
+# Function responsible for checking correctness of inputs on the board
 def CheckingCorectness(key):
     truthIndex = 0
     # HORIZONTAL CHECK
@@ -199,6 +274,26 @@ def CheckingCorectness(key):
             truthIndex += 1
     # BOXED CHECK
 
+    # Gathering data
+    tempBoxedList = []
+    boxedIndex = rectListBoxed.index(key) + 1
+    boxIndex = math.ceil(boxedIndex / 9)
+    boxedLastTileIndex = boxIndex * 9
+    boxedFirstTIleIndex = boxedLastTileIndex - 8
+
+    # Creating temporary list of 8 rectangles in box
+    b = 1
+    for rect in rectListBoxed:
+        if boxedLastTileIndex >= b >= boxedFirstTIleIndex:
+            tempBoxedList.append(rect)
+        b += 1
+    tempBoxedList.remove(key)
+
+    # Checking correctness
+    for rect in tempBoxedList:
+        if rectDict[rect] == rectDict[key]:
+            truthIndex += 1
+
     # FINAL CHECK
     if truthIndex == 0:
         return True
@@ -206,9 +301,6 @@ def CheckingCorectness(key):
         return False
 
 
-rectDict['168124'] = 1
-rectDict['210124'] = 1
-rectDict['168168'] = 1
-
-print(CheckingCorectness('168124'))
+GeneratingBoard()
+# print(CheckingCorectness('168124'))
 StartingWindow()
